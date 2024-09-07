@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат с Нейросетью</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #chat {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 400px;
+            overflow-y: scroll;
+            background: white;
+        }
+        .user-message {
+            color: blue;
+            margin: 5px 0;
+        }
+        .bot-response {
+            color: green;
+            margin: 5px 0;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Чат с Нейросетью</h1>
+<div id="chat"></div>
+<input type="text" id="userInput" placeholder="Введите ваше сообщение...">
+<button id="sendButton">Отправить</button>
+
+<script>
+    document.getElementById('sendButton').addEventListener('click', async () => {
+        const userInput = document.getElementById('userInput');
+        const message = userInput.value;
+        if (!message) return;
+
+        // Отображение сообщения пользователя
+        const chatDiv = document.getElementById('chat');
+        chatDiv.innerHTML += `<div class="user-message">Вы: ${message}</div>`;
+        userInput.value = '';
+
+        // Отправка сообщения на сервер
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+
+        // Отображение ответа нейросети
+        chatDiv.innerHTML += `<div class="bot-response">Нейросеть: ${data.response}</div>`;
+        chatDiv.scrollTop = chatDiv.scrollHeight; // Прокрутка вниз
+    });
+</script>
+
+</body>
+</html>
