@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 client = InferenceClient(
     "mattshumer/Reflection-Llama-3.1-70B",
-    token="hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    token="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",
 )
 
 @app.route('/chat', methods=['POST'])
